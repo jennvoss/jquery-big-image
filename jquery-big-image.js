@@ -38,7 +38,6 @@
 			}
 		},
 
-
 		/*
 		* Public Functions
 		*
@@ -119,8 +118,7 @@
 				}
 			});
 
-		    setStyles($anchor);
-
+			setStyles($anchor);
 			turnOffZoom($anchor);
 		},
 
@@ -131,7 +129,7 @@
 				throwBigImageError('plugin not initialized');
 			}
 
-			var $lens = getLens($anchor);
+			var $lens = getLens($anchor),
 				id    = $anchor.data('bigImageId');
 
 			$lens.remove();
@@ -142,7 +140,7 @@
 				.unbind('mouseenter.bigImage')
 				.unbind('mousemove.bigImage')
 				.unbind('mouseleave.bigImage')
-				.data('bigImageId', null)
+				.data('bigImageId', null);
 
 
 			$.bigImage.zoomMasks[id] = null;
@@ -179,10 +177,15 @@
 		}
 
 		var links = this;
-		isWindowLoaded ? runCommand(links) : $(window).load(function() { runCommand(links); });
+		
+		if (isWindowLoaded) {
+			runCommand(links);
+		} else {
+			$(window).load(function() { runCommand(links); });
+		}
+
 		return links;
 	};
-
 
 	/*
 	* Private Functions
@@ -257,9 +260,9 @@
 		if (!val) {
 			var settings = getSettings($anchor) || { zoom: {} },
 				$container = getElementSetting(settings.zoom.maskElement);
-				$container.css({ 
-				    position: 'absolute', 
-				    left: '-9999px' 
+				$container.css({
+					position: 'absolute',
+					left: '-9999px'
 				});
 
 			val = $.bigImage.zoomMasks[$anchor.data('bigImageId')] = $container.appendTo('body');
@@ -346,7 +349,7 @@
 					width: ratios.width * settings.zoom.width
 				};
 
-			 $lens.css({
+			$lens.css({
 				height: lensDimensions.height + 'px',
 				width: lensDimensions.width + 'px'
 			});
@@ -482,7 +485,6 @@
 
 		return value;
 	}
-
 
 	/*
 	* Public Event Binding
